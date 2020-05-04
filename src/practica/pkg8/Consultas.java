@@ -7,6 +7,7 @@ package practica.pkg8;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -134,7 +135,8 @@ public class Consultas {
                         System.out.println("(Un ejemplo para el sqlInjection podria ser--> The Edge; delete The Edge from bar;)");
                         /*Quiero usar el sqlInjection de arriba pero no puedo 
                         porque no se si tengo bien el connect. De todas formas creo que funciona*/
-                        bares(lector.nextLine());
+                        bares(lector.nextLine()); /*Falla, creo que es porque le 
+                        tengo que poner comillas al nombre pero aun asi falla. REVISAR*/
                         break;
                     case 8:
                         salir = true;
@@ -246,10 +248,12 @@ public class Consultas {
         }
     }
     
-    public static void cervezas(String nombreCerveza) throws SQLException {//ponerlo como un prepared statement
+    public static void cervezas(String nombreCerveza) throws SQLException {
+        //Por lo que he encontrado creo que el prepared statement es asi
         try (Connection con = crearConexion()) {
-            Statement stat = con.createStatement();
-            ResultSet rset = stat.executeQuery("SELECT brewer FROM beer WHERE name = " + nombreCerveza);
+            PreparedStatement prepStat = con.prepareStatement("select * from beer where name = ?");
+            prepStat.setString(1, nombreCerveza);
+            ResultSet results = prepStat.executeQuery();
         }
     }
 }
