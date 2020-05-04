@@ -79,8 +79,8 @@ public class Menu {
     }
 
     public static Connection crearConexion() throws SQLException {
-        String url = "jdbc: mysql: // localhost: 3306 / javabd";
-        return DriverManager.getConnection(url, "root", "password");
+        String url = "jdbc:mysql://localhost:3306/javabd";
+        return DriverManager.getConnection(url, "root", "");//El usuario y contraseña que tengo puestos no funcionan
     }
 
 
